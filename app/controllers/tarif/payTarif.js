@@ -8,8 +8,8 @@ const stripe = require('stripe')(`${process.env.STRIPE_KEY}`);
  */
 const payTarif = async (req, res) => {
     console.log("[INFO] pay tarif called!")
-    const commandeData = await commande.findOne({ _id: req?.body?.commandeId })
-    const amountToCharge = parseInt(commandeData?.prix * 100 ?? 10000);
+    const commandeData = await commande.findOne({ _id: req.body.commandeId })
+    const amountToCharge = parseInt(commandeData.prix * 100 ?? 10000);
     const session = await stripe.checkout.sessions.create({
         line_items: [
         {
@@ -23,16 +23,16 @@ const payTarif = async (req, res) => {
         ],
         mode: 'payment',
         // submit_type: 'payer',
-        success_url: `${process.env.FRONTEND_URL}/commandes/list?success=true`,
-        cancel_url: `${process.env.FRONTEND_URL}/commandes/list?success=false`,
+        success_url: `${process.env.FRONTEND_URL}/commandes/listsuccess=true`,
+        cancel_url: `${process.env.FRONTEND_URL}/commandes/listsuccess=false`,
     });
     console.log("[INFO] payement started!")
     res.redirect(303, session.url);
 }
 
 const payTarifMobile =  async (req, res) => {
-    const commandeData = await commande.findOne({ _id: req?.body?.commandeId })
-    const amountToCharge = parseInt(commandeData?.prix * 100 ?? 10000);
+    const commandeData = await commande.findOne({ _id: req.body.commandeId })
+    const amountToCharge = parseInt(commandeData.prix * 100 ?? 10000);
     // Use an existing Customer ID if this is a returning customer.
     console.log("[INFO] payTarifMobile called");
     const customer = await stripe.customers.create()
