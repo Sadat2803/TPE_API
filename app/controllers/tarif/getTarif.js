@@ -8,7 +8,7 @@ const { handleError } = require('../../middleware/utils')
  */
 const getTarif = async (req, res) => {
 	try {
-		const TYPE = req?.query?.type || 'MISEADISPO'
+		const TYPE = req.query.type || 'MISEADISPO'
 		const tarif = await Tarif.findOne({ TYPE }).lean()
 		return res.status(201).json(tarif)
 	} catch (error) {

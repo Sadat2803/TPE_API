@@ -69,7 +69,7 @@ const updateUser = async (req, res) => {
 					lng: req.location.lng,
 				})
 			}
-			const status = req?.status|| 500;
+			const status = req.status|| 500;
 			if (status) {
 				let content = ''
 
