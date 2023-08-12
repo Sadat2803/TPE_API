@@ -78,6 +78,6 @@ app.use(require('./app/routes'))
 app.listen(app.get('port'))
 
 // Init MongoDB
-initMongo()
+//initMongo()
 
 module.exports = app // for testing
