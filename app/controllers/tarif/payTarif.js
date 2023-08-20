@@ -9,7 +9,7 @@ const stripe = require('stripe')(`${process.env.STRIPE_KEY}`);
 const payTarif = async (req, res) => {
   console.log("[INFO] pay tarif called!")
   const commandeData = await commande.findOne({ _id: req.body.commandeId })
-  const amountToCharge = parseInt(commandeData.prix * 100 ?? 10000);
+  const amountToCharge = parseInt(commandeData.prix * 100 == null ? 10000 : commandeData.prix * 1000);
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -32,7 +32,7 @@ const payTarif = async (req, res) => {
 
 const payTarifMobile = async (req, res) => {
   const commandeData = await commande.findOne({ _id: req.body.commandeId })
-  const amountToCharge = parseInt(commandeData.prix * 100 ?? 10000);
+  const amountToCharge = parseInt(commandeData.prix * 100 == null ? 10000 : commandeData.prix * 1000);
   // Use an existing Customer ID if this is a returning customer.
   console.log("[INFO] payTarifMobile called");
   const customer = await stripe.customers.create()

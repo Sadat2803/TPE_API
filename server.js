@@ -13,7 +13,10 @@ const initMongo = require('./config/mongo')
 const path = require('path')
 
 // Setup express server port from ENV, default: 3000
-app.set('port', process.env.PORT || 3000)
+const PORT = process.env.PORT || 3000;
+
+
+app.use(express.static('static'))
 
 // Enable only in development HTTP request logger middleware
 if (process.env.NODE_ENV === 'development') {
@@ -56,6 +59,7 @@ app.use(
 	})
 )
 
+
 // i18n
 i18n.configure({
 	locales: ['en', 'es'],
@@ -65,12 +69,24 @@ i18n.configure({
 })
 app.use(i18n.init)
 
+app.get('/', function(req, res) {
+    res.sendFile(path.resolve(__dirname + '/build/index.html'))
+});
+
 // Init all other stuff
-app.use(cors())
+app.use(cors({
+	"origin": "*",
+	"methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+	"preflightContinue": false,
+	"optionsSuccessStatus": 204
+}))
 app.use(passport.initialize())
 app.use(compression())
 app.use(helmet())
-app.use(express.static('public'))
+app.use(express.static('static'))
+app.use('/static/css',express.static(__dirname +'/static/css'));
+app.use('/static/js',express.static(__dirname+'/static/js'))
+app.use('/static/media',express.static(__dirname+'/static/media'))
 app.set('views', path.join(__dirname, 'views'))
 app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
