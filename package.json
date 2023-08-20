@@ -8,7 +8,7 @@
     "url": "https://github.com/davellanedam/node-express-mongodb-jwt-rest-api-skeleton.git"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "mocha": "nyc mocha --timeout=5000 --exit",
     "test": "npm run coverage:clean && npm run test:unit && npm run test:e2e && npm run coverage",
     "test:unit": "cross-env NODE_ENV=test jest --coverage",
@@ -109,7 +109,7 @@
     "lint-staged": "^10.5.4",
     "mocha": "^8.3.2",
     "mongo-seeding": "^3.6.0",
-    "nodemon": "^2.0.7",
+    "nodemon": "^2.0.22",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "prettier-eslint": "^12.0.0",
